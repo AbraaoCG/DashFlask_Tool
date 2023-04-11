@@ -1,0 +1,61 @@
+Instruções para estruturação de uma aplicação Web com criação de componentes Dash ( que, ainda assim, precisam ser configurados no backEnd)
+
+--------------------------------------------------------------------- Criação de Design / Layout da página base
+1.1 - Criar design desejado no figma, atentando para a necessidade de autolayout nos 'Frames' do figma e também de nomear componentes corretamente, a fim de obter um template bem utilizável. É preferível, portanto, utilizar apenas 'Frames' ao invés dos grupos do figma, pois estes sim possuem a propriedade de auto Layout na aba Design à direita.
+
+OBS 1: O AutoLayout do Figma é uma formatação muito compatível com o padrão html/css de estruturar as páginas, gerando estilos correspondentes às configurações de autolayout pré-configuradas no figma.
+
+OBS 2: Os Componentes Dash permitem a estruturação facilitada de:
+--- imagens
+--- tabs e tab ( Tabs é a estrutura mãe e Tab é cada opção das Tabs. Isso seria um menu dinâmico interativo)
+--- upload ( Área de Upload de árquivos )
+--- button ( Funcionalidade simples estética de um botão )
+--- input  ( Área de Entrada de dados pelo usuário final da plataforma )
+--- dropdown ( Menu de seleção que atua como uma entrada de dados condicionada pelo desenvolvedor)
+
+---> Dentre Outros ...
+
+---> Os componentes Dash Apresentados podem ser automaticamente identificados e criados, basta seguir a seguinte regra:
+---- Ao nomear um Frame no Figma que será um componente, ele deve ser nomeado no formato 'componente_dash'. Ou seja,
+---- uma área de upload deve ser nomeada como 'upload_dash' e um botão 'button_dash'. Imagens são exceção e são reconhecidas 
+---- automaticamente.
+
+--> Para continuar a partir do Figma, é preciso ter configurado o ambiente de uma aplicação Web com Flask e Dash.
+
+--------------------------------------------------------------------- Desenvolvimento Servidor / Funcional
+2.1 - Criar Venv (Ambiente Virtual Python ). 
+
+2.1.1 -Terminal: pip3 install virtualenv 
+
+2.1.2 -Terminal: python3 -m venv nomeDoVenv
+
+
+2.2 - Entrar no Ambiente Virtual usando: 'source nomeDoVenv/bin/activate' no linux ou 'nomeDoVenv/Scripts/Activate.ps1' no windows 10/11.
+
+2.3 - Instalar bibliotecas python necessárias a partir do arquivo requirements.txt
+
+2.3.1 - Terminal: pip3 install -r requirements.txt ( Essa parte pode demorar algum tempo ...)
+
+2.4 - Utilizar uma estrutura básica para o servidor usando Flask e Dash, atentando para a presença da pasta assets e para os arquivos python 'writeDash.py' e 'dashCode.py'
+
+3 - Utilizar o plugin 'autoHTML' para gerar um conjunto de arquivos Html+css+imagens+... a partir do figma, gerando um arquivo ao clicar em 'Download Zip'. Após isso, descompactar o arquivo e colocar 'index.html' em assets, imagens em "assets/imgs" e css's em "assets/css".
+
+4 - Executar o script python 'writeDash'.py estando na pasta raiz do projeto, o que deverá criar um arquivo dashCode.py na pasta 'assets' do projeto. Esse arquivo possui uma função que retorna o corpo do código em python utilizando a biblioteca Dash. Tal função pode ser modificada para configurar componentes como Tabs ( Modificar 'Label' das Tabs, que por padrão são o nome do frame ), Dropdown's ( Alterar opções de escolha, assim como a opção padrão inicial ), Inputs ( alterar características como o tipo de dado suportado: texto/número/data/etc... ). Além disso, nessa função, o Dash permite utilizar o método 'Store()', sem efeito gráfico, mas que permite armazenar dados no navegador do usuário, função útil para diversas implementações.
+
+4.1 Terminal: python dashApp/writeDash.py
+
+6. Levando em conta o nome do arquivo principal, que é o arquivo de criação do servidor FLASK, exportar nome do servidor no terminal e executar o servidor com os seguintes comandos:
+
+
+6.1 - Linux : 'export FLASK_APP=NomeDoArquivoPrincipal ' ; "flask run"
+
+6.2 - Windows : "$env:FLASK_APP='NomeDoArquivoPrincipal.py' " ; "flask run"
+
+6.3 - Caso seja desejado modo de desenvolvimento ( Atualizar arquivos Python recarregam o servidor automaticamente ), é possível executar antes do flask run: 
+6.3.1 - Linux - 'export FLASK_DEBUG=1'
+6.3.2 - Windows - '$env:FLASK_DEBUG=1'
+
+
+
+
+
