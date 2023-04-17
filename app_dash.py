@@ -28,7 +28,7 @@ appServer= Flask(__name__)
 # appServer.config["SESSION_TYPE"] = "filesystem"
 
 
-app = dash.Dash(name =__name__,server = appServer, url_base_pathname='/dash/')
+app = dash.Dash(name =__name__,server = appServer, url_base_pathname='/')
 
 
 app.layout = getLayoutFormated()
