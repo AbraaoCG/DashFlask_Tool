@@ -2,6 +2,8 @@
 from flask import Flask, request
 import dash
 from dash import Dash, dcc, html, dash_table, Input, Output, State
+from dash.html import Div, Button
+from dash.dcc import Upload, Dropdown, Input
 # from dash import dcc, html, Input, Output, State
 # Utilizado para verificar tipo de arquivo baixado e manipular tabelas
 import numpy as np
@@ -22,7 +24,7 @@ import os
 
 # Importando função auxiliar que retorna Layout.
 from assets.dashCode import getLayoutFormated
-
+from modelingFunc.functions1 import *
 
 appServer= Flask(__name__)
 # appServer.config['SECRET_KEY'] = str(int(np.floor(np.random.random() * np.random.random()* 10000)))
@@ -68,35 +70,138 @@ def verifyData(inputData):
         return False # html.Div('Sua tabela deve ser númerica')#index()
 
 
-# CallBack com função de Alterar Output de acordo com os dados enviados ao servidor.
-@app.callback(Output('div_com_nome_arquivo_uploaded','children'),
-              Output('store_input_data','data'),
-              Input('input_data_UPLOAD','contents'),
-              State('input_data_UPLOAD','filename'),
-              State('input_data_UPLOAD','last_modified')
-              )
-def update_output(content, filename, date):
-    if content is not None:
-        df = parse_contents(content, filename, date).to_dict('records')
+# # # CallBack com função de Alterar Output de acordo com os dados enviados ao servidor.
+# # @app.callback(Output( 'datauploaded_name_box','children'),
+# #               Output('store_input_data','data'),
+# #               Input('senddata_upload_dash_UPLOAD', 'contents' ),
+# #               State('senddata_upload_dash_UPLOAD', 'filename'),
+# #               State('senddata_upload_dash_UPLOAD', 'last_modified')
+# #             )
+
+# # def x():
+# #     pass
+#             Output('store_input_data','data'),
+# def update_output(contents, filenames, dates):
+    
+#     if contents is not None:
+#         dfList = [
+#             parse_contents(c, n, d) for c, n, d in
+#             zip(contents, filenames, dates)]
+    
+#         df = dfList[0]
+#         filename = filenames[0]
         
-        # Definindo caminho viável para armazenar tabelas.
-        user_IP = request.remote_addr.replace('.','_')
-        userPath = os.path.join(app.server.instance_path, user_IP)
-        nameDiv = html.Div(f'Tabela Enviada: '+ filename ,className='datauploaded_name') # DEFINIR NOME DO ESTILO ???
+#         # Definindo caminho viável para armazenar tabelas.
+#         user_IP = request.remote_addr.replace('.','_')
+#         userPath = os.path.join(app.server.instance_path, user_IP)
+#         nameDiv = html.Div(f'Tabela Enviada: '+ filename ,className='datauploaded_name') # DEFINIR NOME DO ESTILO ???
  
-        return nameDiv,df
-    else:
-        return html.Div('Nenhum arquivo selecionado', className= 'datauploaded_name'),{}
+#         return nameDiv,df
+#     else:
+#         return html.Div('Nenhum arquivo selecionado', className= 'datauploaded_name'),{}
 
 
-# CallBack com função de Alterar Output de acordo com função principal, definida em ??Dropdown??
-@app.callback(Output('store_ML_Data','data'),
-              Input('main_function_DROPDOWN','value'),
-              Input('store_input_data','data')
-              )
 
-def changeOutput_ML(mlFunction,inputDF):
-    df = pd.DataFrame.from_dict(inputDF) # DataFrame com arquivo enviado ao servidor
-    mlFunc = mlFunction # Variável com opção selecionada pelo usuário
+# # CallBack com função de Alterar o SubMenu de opções
+# @app.callback(Output('Sub_Menu_Options','children'),
+#               Input('select_main_function_DROPDOWN','value'),
+#               # Input('store_input_data','data')
+#               )
 
-    # Desenvolver Criação de Tabelas com resultados em função do Layout desejado.
+# def changeOutput_ML(mlFunction,inputDF):
+#     df = pd.DataFrame.from_dict(inputDF) # DataFrame com arquivo enviado ao servidor
+    
+#     if (mlFunction == 0):
+#         children = html.Div()# Preencher com código de menu oriundo 
+#         return children
+        
+#     elif(mlFunction == 1):
+#         children = subMenu_mediaMov()# Preencher com código de menu oriundo 
+#         return children
+
+# # Função Para retornar Layout de um menu com argumentos de média móvel.
+# def subMenu_mediaMov():
+#     return Div(
+#         [
+#             Div(
+#                 children=[
+#                     Div(
+#                         children=[
+#                             Div(
+#                                 children=[
+#                                     Div(
+#                                         children=[
+#                                             Div(
+#                                                 children=["Tipo de Média Móvel"],
+#                                                 id="numepochs_text_test",
+#                                                 className="numepochs_text_test",
+#                                             ),
+#                                             Dropdown(
+#                                                 options=[
+#                                                     {
+#                                                         "label": "Tendências",
+#                                                         "value": 0,
+#                                                     },
+#                                                     {
+#                                                         "label": "Médias Móveis",
+#                                                         "value": 1,
+#                                                     },
+#                                                 ],
+#                                                 value=0, 
+#                                                 className="numepochs_box_test_dropdown_dash",
+#                                                 id="numepochs_box_test_dropdown_dash_INPUT",
+#                                             ),
+#                                         ],
+#                                         id="arg6_test",
+#                                         className="arg6_test",
+#                                     ),
+#                                     Div(
+#                                         children=[
+#                                             Div(
+#                                                 children=["Janela da Media móvel"],
+#                                                 id="learningrate_test_text",
+#                                                 className="learningrate_test_text",
+#                                             ),
+#                                             Input(
+#                                                 type="number",
+#                                                 placeholder="",
+#                                                 className="learningrate_test_input_dash",
+#                                                 id="learningrate_test_input_dash_INPUT",
+#                                             ),
+#                                         ],
+#                                         id="arg1_test",
+#                                         className="arg1_test",
+#                                     ),
+#                                     Div(
+#                                         children=[
+#                                             Button(
+#                                                 children=[
+#                                                     Div(
+#                                                         children=["Executar"],
+#                                                         id="exec_button_text",
+#                                                         className="exec_button_text",
+#                                                     )
+#                                                 ],
+#                                                 id="exec_alg_test_button_dash_BUTTON",
+#                                                 className="exec_alg_test_button_dash",
+#                                             )
+#                                         ],
+#                                         id="arg3_test",
+#                                         className="arg3_test",
+#                                     ),
+#                                 ],
+#                                 id="frame-9_test",
+#                                 className="frame-9_test",
+#                             )
+#                         ],
+#                         id="args_content_test",
+#                         className="args_content_test",
+#                     )
+#                 ],
+#                 id="topleft",
+#                 className="topleft",
+#             )
+#         ]
+#     )
+
+

@@ -36,8 +36,13 @@ plt.plot(X,Y, label="Input")
 # plt.plot(X, RegLN,label="Reg LN")
 
 plt.plot(X, RegPoli,label="Reg Polinomial")
+A= np.zeros((3,3))
+for i in range(3):
+    for j in range(3):
+        A[i][j] = i + j
 
-
+print(A)
+print()
 # plt.ylim(5,15)
 # plt.xlim(115,120)
 plt.legend()
