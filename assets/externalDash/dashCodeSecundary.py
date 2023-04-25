@@ -1,5 +1,6 @@
 from dash.html import Div, Button, Img
-from dash.dcc import Tabs, Tab, Input, Upload, Store, Dropdown
+from dash.dcc import Tabs, Tab, Input, Upload, Store, Dropdown, Graph
+from dash_svg import Svg, Path, Line
 
 
 def getLayoutFormated():
@@ -7,6 +8,34 @@ def getLayoutFormated():
         [
             Div(
                 children=[
+                    Upload(
+                        children=[
+                            Div(
+                                children=[
+                                    Div(
+                                        children=[],
+                                        id="rectangle-31",
+                                        className="rectangle-31",
+                                    ),
+                                    Div(
+                                        children=[],
+                                        id="rectangle-32",
+                                        className="rectangle-32",
+                                    ),
+                                ],
+                                id="group-43",
+                                className="group-43",
+                            ),
+                            Div(
+                                children=["Import Data"],
+                                id="import-data",
+                                className="import-data",
+                            ),
+                        ],
+                        id="import-data-upload-dash_UPLOAD",
+                        className="import-data-upload-dash",
+                        multiple=True,
+                    ),
                     Div(
                         children=[
                             Div(
@@ -14,74 +43,86 @@ def getLayoutFormated():
                                     Div(
                                         children=[
                                             Div(
-                                                children=["Tipo de Média Móvel"],
-                                                id="numepochs_text_test",
-                                                className="numepochs_text_test",
-                                            ),
-                                            Dropdown(
-                                                options=[
-                                                    {
-                                                        "label": "Opção 1",
-                                                        "value": "valor0",
-                                                    },
-                                                    {
-                                                        "label": "Edite as opções no código.",
-                                                        "value": "valor1",
-                                                    },
+                                                children=[
+                                                    Div(
+                                                        children=["Time History"],
+                                                        id="time-history",
+                                                        className="time-history",
+                                                    )
                                                 ],
-                                                value="valor0",
-                                                className="numepochs_box_test_dropdown_dash",
-                                                id="numepochs_box_test_dropdown_dash_INPUT",
+                                                id="time-history-title",
+                                                className="time-history-title",
+                                            ),
+                                            Graph(
+                                                id="time-history-graph-dash_GRAPH",
+                                                className="time-history-graph-dash",
+                                                figure={},
                                             ),
                                         ],
-                                        id="arg6_test",
-                                        className="arg6_test",
+                                        id="time-history-frame",
+                                        className="time-history-frame",
                                     ),
                                     Div(
                                         children=[
                                             Div(
-                                                children=["Janela da Media móvel"],
-                                                id="learningrate_test_text",
-                                                className="learningrate_test_text",
+                                                children=[
+                                                    Div(
+                                                        children=["Data Decomposition"],
+                                                        id="data-decomposition",
+                                                        className="data-decomposition",
+                                                    )
+                                                ],
+                                                id="data-decomposition-title",
+                                                className="data-decomposition-title",
                                             ),
-                                            Input(
-                                                type="number",
-                                                placeholder="",
-                                                className="learningrate_test_input_dash",
-                                                id="learningrate_test_input_dash_INPUT",
+                                            Graph(
+                                                id="data-decomposition-graph-dash_GRAPH",
+                                                className="data-decomposition-graph-dash",
+                                                figure={},
                                             ),
                                         ],
-                                        id="arg1_test",
-                                        className="arg1_test",
+                                        id="data-decomposition-frame",
+                                        className="data-decomposition-frame",
+                                    ),
+                                ],
+                                id="graphs",
+                                className="graphs",
+                            ),
+                            Div(
+                                children=[
+                                    Div(
+                                        children=[
+                                            Div(
+                                                children=["Data Report"],
+                                                id="data-report",
+                                                className="data-report",
+                                            )
+                                        ],
+                                        id="data-report-title",
+                                        className="data-report-title",
                                     ),
                                     Div(
                                         children=[
-                                            Button(
-                                                children=[
-                                                    Div(
-                                                        children=["Executar"],
-                                                        id="exec_button_text",
-                                                        className="exec_button_text",
-                                                    )
-                                                ],
-                                                id="exec_alg_test_button_dash_BUTTON",
-                                                className="exec_alg_test_button_dash",
+                                            Div(
+                                                children=["AAAAAAAAAAAAAAAAAAAAAAAAAA"],
+                                                id="aaaaaaaaaaaaaaaaaaaaaaaaaa",
+                                                className="aaaaaaaaaaaaaaaaaaaaaaaaaa",
                                             )
                                         ],
-                                        id="arg3_test",
-                                        className="arg3_test",
+                                        id="data-report-info-box",
+                                        className="data-report-info-box",
                                     ),
                                 ],
-                                id="frame-9_test",
-                                className="frame-9_test",
-                            )
+                                id="data-report-frame",
+                                className="data-report-frame",
+                            ),
                         ],
-                        id="args_content_test",
-                        className="args_content_test",
-                    )
+                        id="data-input-frame",
+                        className="data-input-frame",
+                    ),
                 ],
-                id="topleft",
-                className="topleft",
+                id="box-input-data-test",
+                className="box-input-data-test",
             )
         ]
     )

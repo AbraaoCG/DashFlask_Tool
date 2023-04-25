@@ -168,5 +168,5 @@ def linearSolver(A,X,B):
 
 def polynomial_regression(x, y, degree):
     z = np.polyfit(x, y, degree)
-    p = np.polyval(z,X)
+    p = np.polyval(z,x)
     return p

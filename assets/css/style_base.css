@@ -7,6 +7,10 @@ html{
     background: none;
 }
 
+.dash-graph{
+    background-color: rgba(245,245,245,1);
+}
+
 /* .Select-control{
     background-color: #fff;
     border-color: #d9d9d9 #ccc #b3b3b3;
