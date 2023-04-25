@@ -1,4 +1,5 @@
 import numpy as np
+from functions_algLin import *
 
 def media_movel_aritmetica(dados, janela):
     """
@@ -92,81 +93,42 @@ def exponential_regression(X, y):
     y_pred = a0_exp * np.exp(a1 * X) 
     return y_pred
 
-def linearSolver(A,X,B):
-    # Resolver A . X = B 
-    pass
+def linearSolver(A,B):
+    # Função para resolução de sistemas lineares, por enquanto com suporte para resolução através de decomposição LU.
+    X = LU_Solver(A,B) 
+    return X
 
-# def invert_matrix(A):
-#     n = len(A)
-#     A_inv = [[0.0] * n for i in range(n)]
+def polyfit(x, y, degree):
+    # Número de pontos
+    n = len(x)
+    # Inicializa as matrizes
+    X = np.zeros((n, degree+1))
+    Y = np.zeros((n, 1))
     
-#     # Criar matriz identidade
-#     for i in range(n):
-#         A_inv[i][i] = 1.0
+    # Preenche a matriz X com as potências de x até o grau desejado
+    for i in range(n):
+        for j in range(degree+1):
+            X[i][j] = x[i]**j
     
-#     # Eliminação Gaussiana com pivoteamento parcial
-#     for j in range(n):
-#         # Escolher o pivô
-#         max_row = j
-#         for i in range(j+1, n):
-#             if abs(A[i][j]) > abs(A[max_row][j]):
-#                 max_row = i
-#         # Trocar linhas para obter o pivô na diagonal principal
-#         A[j], A[max_row] = A[max_row], A[j]
-#         A_inv[j], A_inv[max_row] = A_inv[max_row], A_inv[j]
-        
-#         # Reduzir a matriz abaixo da diagonal principal
-#         for i in range(j+1, n):
-#             factor = A[i][j] / A[j][j]
-#             for k in range(j, n):
-#                 A[i][k] -= factor * A[j][k]
-#                 A_inv[i][k] -= factor * A_inv[j][k]
-    
-#     # Resolver a matriz triangular superior
-#     for j in range(n-1, -1, -1):
-#         for i in range(j-1, -1, -1):
-#             factor = A[i][j] / A[j][j]
-#             for k in range(n):
-#                 A_inv[i][k] -= factor * A_inv[j][k]
-#             A[i][j] = 0
-    
-#     # Dividir cada linha pelo elemento diagonal
-#     for i in range(n):
-#         diag = A[i][i]
-#         for j in range(n):
-#             A_inv[i][j] /= diag
-    
-#     return A_inv
+    # Preenche a matriz Y com os valores de y
+    for i in range(n):
+        Y[i][0] = y[i]
+    # Para realizar a resolução do sistema, é preciso que a matrix X tenha dimensão k x k. Então, se não for, multiplicamos dos dois lados por Xt.
+    if X.shape[0] == X.shape[1]:
 
-# def polyfit(x, y, degree):
-#     # Número de pontos
-#     n = len(x)
-#     # Inicializa as matrizes
-#     X = np.zeros((n, degree+1))
-#     Y = np.zeros((n, 1))
-    
-#     # Preenche a matriz X com as potências de x até o grau desejado
-#     for i in range(n):
-#         for j in range(degree+1):
-#             X[i][j] = x[i]**j
-    
-#     # Preenche a matriz Y com os valores de y
-#     for i in range(n):
-#         Y[i][0] = y[i]
-    
-#     # Calcula a matriz A, que é a solução do sistema de equações normais
-#     linearSolver()
-    
-#     # Calcula os valores de y preditos pela regressão polinomial
-#     y_pred = np.zeros(n)
-#     for i in range(n):
-#         for j in range(degree+1):
-#             y_pred[i] += A[j][0] * (x[i]**j)
-    
-#     # Retorna os coeficientes da regressão e os valores de y preditos
-#     return A, y_pred
+        # Calcula a matriz A, que é a solução do sistema de equações normais
+        A = linearSolver(X,Y)
+    else:
+        Xt = transpose(X)
+        X2 = matrix_multiplication(Xt,X)
+        Y2 = matrix_multiplication(Xt,Y)
+        A = linearSolver(X2,Y2) # Resolver sistema com 
 
-def polynomial_regression(x, y, degree):
-    z = np.polyfit(x, y, degree)
-    p = np.polyval(z,x)
-    return p
+    # Calcula os valores de y preditos pela regressão polinomial
+    y_pred = np.zeros(n)
+    for i in range(n):
+        for j in range(degree+1):   
+            y_pred[i] += A[j][0] * (x[i]**j)
+    
+    # Retorna os coeficientes da regressão e os valores de y preditos
+    return y_pred
