@@ -4,9 +4,6 @@ def LU_Solver(A,B):
     L,U = LU_decomposition(A)
     Y = forward_substitution(L, B)
     X = back_substitution(U, Y)
-    # print('Aqui')
-    # print(Y)
-    # print(np.dot(U,X))
 
     return X
 

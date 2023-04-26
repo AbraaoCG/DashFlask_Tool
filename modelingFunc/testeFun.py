@@ -10,7 +10,7 @@ X = np.arange(12)
 
 for x in X:
     #value = 2 + 5 * x
-    value = 15 + 22 * x + 30 * (x**2) + 123 * (x**6) # POLI
+    value = 15 + 22 * x + 30 * (x**2) + 123 * (x**20) # POLI
     # value = np.log(x) # * ( 1 + np.random.random() * 0.15 * (-1 ** x)) # LN ou EXP
     Y.append( value)
 
@@ -22,8 +22,8 @@ janela = 5
 
 # RegExp = exponential_regression(X,Y)
 # RegLN = logarithmic_regression(X,Y)
-
-RegPoli_pred = polyfit(X,Y,6)
+print(X)
+RegPoli_pred = polyfit(X,Y,20)
 
 plt.plot(X,Y, label="Input")
 
